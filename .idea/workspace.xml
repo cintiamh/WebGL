@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="333cf045-e49a-4878-899e-14155f4608bd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/learningwebgl.com/lesson03/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/learningwebgl.com/lesson03/scripts.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/webgl-utils.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/learningwebgl.com/lesson04/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/learningwebgl.com/lesson04/scripts.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/learningwebgl.com/lesson03/scripts.js" afterPath="$PROJECT_DIR$/learningwebgl.com/lesson03/scripts.js" />
     </list>
     <ignored path="WebGL.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,16 +27,25 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/learningwebgl.com/lesson03/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="64" selection-start="239" selection-end="239" vertical-scroll-proportion="-3.2692308">
+            <state line="18" column="25" selection-start="535" selection-end="535" vertical-scroll-proportion="-11.769231">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="scripts.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/learningwebgl.com/lesson04/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="scripts.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/learningwebgl.com/lesson03/scripts.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="216" column="23" selection-start="6643" selection-end="6643" vertical-scroll-proportion="0.70520234">
+            <state line="193" column="70" selection-start="5881" selection-end="5881" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -47,7 +56,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state line="174" column="0" selection-start="6299" selection-end="6299" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="n#!!doc" expanded="true" />
                 <marker date="1353080913591" expanded="false" signature="2670:2720" placeholder="..." />
                 <marker date="1353080913591" expanded="false" signature="2791:2835" placeholder="..." />
               </folding>
@@ -111,7 +119,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -141,6 +148,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebGL" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebGL" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="learningwebgl.com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lesson04" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -200,6 +225,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -207,6 +233,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\chigashi.ANDREW\Documents\Projects\WebGL\learningwebgl.com\lesson04" />
       <recent name="C:\Users\chigashi.ANDREW\Documents\Projects\WebGL\learningwebgl.com\lesson03" />
       <recent name="C:\Users\chigashi.ANDREW\Documents\Projects\WebGL\learningwebgl.com\lesson02" />
       <recent name="C:\Users\chigashi.ANDREW\Documents\Studies\WebGL\WebGL\lib" />
@@ -277,13 +304,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25275397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25581396" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -351,27 +378,43 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/learningwebgl.com/lesson01/index.html">
+    <entry file="file://$PROJECT_DIR$/learningwebgl.com/lesson03/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="64" selection-start="165" selection-end="165" vertical-scroll-proportion="0.0">
+        <state line="5" column="64" selection-start="239" selection-end="239" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/learningwebgl.com/lesson03/scripts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="216" column="23" selection-start="6643" selection-end="6643" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/webgl-utils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="174" column="0" selection-start="6299" selection-end="6299" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1353080913591" expanded="false" signature="2670:2720" placeholder="..." />
+            <marker date="1353080913591" expanded="false" signature="2791:2835" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/learningwebgl.com/lesson01/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="64" selection-start="165" selection-end="165" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/learningwebgl.com/lesson01/scripts.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="61" selection-start="735" selection-end="735" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="28" column="61" selection-start="735" selection-end="735" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/gl-matrix.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="104" selection-start="615" selection-end="615" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="17" column="104" selection-start="615" selection-end="615" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/jquery.js">
@@ -381,62 +424,56 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/gl-matrix.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="134" selection-start="415" selection-end="415" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="13" column="134" selection-start="415" selection-end="415" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/learningwebgl.com/lesson01/scripts.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="141" column="45" selection-start="4307" selection-end="4307" vertical-scroll-proportion="0.6462428">
-          <folding />
-        </state>
+        <state line="141" column="45" selection-start="4307" selection-end="4307" vertical-scroll-proportion="0.6462428" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/learningwebgl.com/lesson01/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="101" selection-start="343" selection-end="343" vertical-scroll-proportion="0.20262218">
-          <folding>
-            <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
+        <state line="10" column="101" selection-start="343" selection-end="343" vertical-scroll-proportion="0.20262218" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/learningwebgl.com/lesson02/scripts.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="165" column="48" selection-start="5306" selection-end="5306" vertical-scroll-proportion="3.2427745">
-          <folding />
-        </state>
+        <state line="165" column="48" selection-start="5306" selection-end="5306" vertical-scroll-proportion="3.2427745" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/learningwebgl.com/lesson02/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="27" selection-start="501" selection-end="501" vertical-scroll-proportion="0.3647199">
-          <folding />
-        </state>
+        <state line="18" column="27" selection-start="501" selection-end="501" vertical-scroll-proportion="0.3647199" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/webgl-utils.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="174" column="0" selection-start="6299" selection-end="6299" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="n#!!doc" expanded="true" />
             <marker date="1353080913591" expanded="false" signature="2670:2720" placeholder="..." />
             <marker date="1353080913591" expanded="false" signature="2791:2835" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/learningwebgl.com/lesson03/index.html">
+    <entry file="file://$PROJECT_DIR$/learningwebgl.com/lesson03/scripts.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="64" selection-start="239" selection-end="239" vertical-scroll-proportion="-3.2692308">
+        <state line="193" column="70" selection-start="5881" selection-end="5881" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/learningwebgl.com/lesson03/scripts.js">
+    <entry file="file://$PROJECT_DIR$/learningwebgl.com/lesson03/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="216" column="23" selection-start="6643" selection-end="6643" vertical-scroll-proportion="0.70520234">
+        <state line="18" column="25" selection-start="535" selection-end="535" vertical-scroll-proportion="-11.769231">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/learningwebgl.com/lesson04/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
