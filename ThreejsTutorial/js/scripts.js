@@ -11,16 +11,20 @@ function init() {
 
     scene = new THREE.Scene();
 
-    light = new THREE.SpotLight(0xFFFFFF);
+    //light = new THREE.SpotLight(0xFFFFFF);
+    //light = new THREE.DirectionalLight(0xFFFFFF, 0.8);
+    light = new THREE.SpotLight();
+    //light.position.set(1, 1, 1);
     light.castShadow = true;
-    light.shadowDarkness = 0.5;
-    light.position.set(170, 330, -160);
+    //light.shadowDarkness = 0.5;
+    //light.position.set(170, 330, -160);
+    light.position.set(0, 100, -100);
     scene.add(light);
     scene.shadowMapEnabled = true;
 
     cube = new THREE.Mesh(
         new THREE.CubeGeometry(50, 50, 50),
-        new THREE.MeshBasicMaterial({ color: 0x000000 }));
+        new THREE.MeshLambertMaterial({ color: 0xFF0000 }));
     scene.add(cube);
 
     litCube = new THREE.Mesh(
