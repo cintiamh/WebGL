@@ -1,12 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Tetris 3D</title>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script type="text/javascript">
+        // prepare animation loop utility
+
+        window.requestAnimFrame = (function (callback) {
+            return window.requestAnimationFrame ||
+                    window.webkitRequestAnimationFrame ||
+                    window.mozRequestAnimationFrame ||
+                    window.oRequestAnimationFrame ||
+                    window.msRequestAnimationFrame ||
+                    function (callback) {
+                        window.setTimeout(callback, 1000 / 60);
+                    };
+        })();
+    </script>
 </head>
 <body>
 
 <div id="wrapper">
     <h1>Tetris 3D</h1>
+
+    <div id="canvas"></div>
+
     <button id="play_button">Play</button>
 
     <div id="points">0</div>
@@ -14,7 +33,11 @@
 
 <script type="text/javascript" src="js/three.min.js"></script>
 <script type="text/javascript" src="js/stats.min.js"></script>
-<script type="text/javascript" src="js/scripts.js"></script>
+<script type="text/javascript" src="js/tetris.js"></script>
+
+<script>
+    start();
+</script>
 
 </body>
 </html>
