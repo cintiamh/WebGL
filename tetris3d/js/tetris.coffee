@@ -19,6 +19,8 @@ FAR = 10000
 stepTime = 1000
 points = 0
 
+staticBlocks = []
+
 canvas = $('#canvas')
 renderer = new THREE.WebGLRenderer
 camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR)
@@ -28,6 +30,33 @@ scene.add(camera)
 camera.position.z = TABLE_DEPTH * BLOCK_SIZE / 2 + 225
 renderer.setSize(WIDTH, HEIGHT)
 canvas.append(renderer.domElement)
+
+class Block
+  constructor: (@x, @y, @z) ->
+    @color = 0xFF0000
+    @active = false
+    @position = {}
+    @position.x = (TABLE_WIDTH / 2 + (@x - (TABLE_WIDTH - 0.5))) * BLOCK_SIZE
+    @position.y = -(TABLE_HEIGHT / 2 + (@y - (TABLE_HEIGHT - 0.5))) * BLOCK_SIZE
+    @position.z = (@z - TABLE_DEPTH / 2 + 0.5) * BLOCK_SIZE
+
+  setColor: (color) ->
+    @color = color
+
+  draw: ->
+    if !@active
+      @active = true
+      cube = new THREE.Mesh(
+        new THREE.CubeGeometry(BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE)
+        new THREE.MeshBasicMaterial({color: @color})
+      )
+      cube.position.x = @position.x
+      cube.position.y = @position.y
+      cube.position.z = @position.z
+      scene.add(cube)
+
+  print: ->
+    console.log(@position.x + ", " + @position.y + ", " + @position.z)
 
 boundingBox = new THREE.Mesh(
   new THREE.CubeGeometry(
@@ -41,29 +70,15 @@ boundingBox = new THREE.Mesh(
 )
 scene.add(boundingBox)
 
-cube = new THREE.Mesh(
-  new THREE.CubeGeometry(BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE)
-  new THREE.MeshBasicMaterial({color: 0xFF0000})
-)
-cube.position.z = - TABLE_DEPTH * BLOCK_SIZE / 2
-cube.position.x = BLOCK_SIZE / 2
-cube.position.y = BLOCK_SIZE / 2
-scene.add(cube)
+block = new Block(0, 0, 0)
+block.print()
+block.draw()
+
+block2 = new Block(5, 5, 0)
+block2.setColor(0x00FF00)
+block2.draw()
 
 renderer.render(scene, camera)
-
-staticBlocks = []
-zColors = [
-  0x6666ff, 0x66ffff, 0xcc68EE, 0x666633, 0x66ff66, 0x9966ff, 0x00ff66, 0x66EE33, 0x003399, 0x330099,
-  0xFFA500, 0x99ff00, 0xee1289, 0x71C671, 0x00BFFF, 0x666633, 0x669966, 0x9966ff
-]
-
-addStaticBlock = (x, y, z) ->
-  if staticBlocks[x] == undefined
-    staticBlocks[x] = []
-  if staticBlocks[x][y] == undefined
-    staticBlocks[x][y] = []
-
 
 
 animate = (t) ->
