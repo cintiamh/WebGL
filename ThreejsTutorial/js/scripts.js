@@ -1,69 +1,68 @@
-var camera, scene, renderer;
-var geometry, material;
-var cube, light, litCube, planeGeo, planeMat, plane;
+// set the scene size
+var WIDTH = 800,
+    HEIGHT = 600;
 
-init();
-//animate();
+// set some camera attributes
+var VIEW_ANGLE = 45,
+    ASPECT = WIDTH / HEIGHT,
+    NEAR = 1,
+    FAR = 10000;
 
-function init() {
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.z = 300;
+var container = $('#container');
 
-    scene = new THREE.Scene();
+var renderer = new THREE.WebGLRenderer();
+var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+var scene = new THREE.Scene();
 
-    //light = new THREE.SpotLight(0xFFFFFF);
-    //light = new THREE.DirectionalLight(0xFFFFFF, 0.8);
-    light = new THREE.SpotLight();
-    //light.position.set(1, 1, 1);
-    light.castShadow = true;
-    //light.shadowDarkness = 0.5;
-    //light.position.set(170, 330, -160);
-    light.position.set(0, 100, -100);
-    scene.add(light);
-    scene.shadowMapEnabled = true;
+scene.add(camera);
+camera.position.z = 300;
+renderer.setSize(WIDTH, HEIGHT);
+container.append(renderer.domElement);
 
-    cube = new THREE.Mesh(
-        new THREE.CubeGeometry(50, 50, 50),
-        new THREE.MeshLambertMaterial({ color: 0xFF0000 }));
-    scene.add(cube);
+var cube = new THREE.Mesh(
+    new THREE.CubeGeometry(50, 50, 50),
+    new THREE.MeshLambertMaterial({color: 0xCC0000})
+);
+scene.add(cube);
 
-    litCube = new THREE.Mesh(
-        new THREE.CubeGeometry(50, 50, 50),
-        new THREE.MeshLambertMaterial({color: 0xFFFFFF})
-        //new THREE.MeshBasicMaterial({color: 0xFFFFFF})
-    );
-    litCube.position.y = 50;
-    litCube.castShadow = true;
-    litCube.receiveShadow = true;
-    scene.add(litCube);
+planeGeo = new THREE.PlaneGeometry(300, 200, 10, 10);
+planeMat = new THREE.MeshLambertMaterial({color:0xFFFFFF});
+plane = new THREE.Mesh(planeGeo, planeMat);
+plane.rotation.x = -Math.PI/2;
+plane.position.y = -25;
+plane.receiveShadow = true;
+scene.add(plane);
 
-    planeGeo = new THREE.PlaneGeometry(400, 200, 10, 10);
-    planeMat = new THREE.MeshLambertMaterial({color:0xFFFFFF});
-    plane = new THREE.Mesh(planeGeo, planeMat);
-    plane.rotation.x = -Math.PI/2;
-    plane.rotation.y = -25;
-    plane.receiveShadow = true;
-    scene.add(plane);
+var radius = 25,
+    segments = 16,
+    rings = 16;
 
-    renderer = new THREE.CanvasRenderer();
-    renderer.setSize( window.innerWidth, window.innerHeight );
+var sphereMaterial = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
+var sphere = new THREE.Mesh(
+    new THREE.SphereGeometry(radius, segments, rings),
+    sphereMaterial
+);
+sphere.position.y = 50;
+scene.add(sphere);
 
-    renderer.shadowMapEnabled = true;
-    renderer.shadowMapSoft = true;
+var pointLight = new THREE.PointLight(0xFFFFFF);
 
-    document.body.appendChild(renderer.domElement);
+pointLight.position.x = 0;
+pointLight.position.y = 100;
+pointLight.position.z = 130;
 
-    renderer.setClearColorHex(0xEEEEEE, 1.0);
-    renderer.clear();
-}
+scene.add(pointLight);
+
+renderer.render(scene, camera);
+
 
 function animate(t) {
 
-    litCube.position.x = Math.cos(t/600) * 85;
-    litCube.position.y = 60 - Math.sin(t/900) * 25;
-    litCube.position.z = Math.sin(t/600) * 85;
-    litCube.rotation.x = t/500;
-    litCube.rotation.y = t/800;
+    sphere.position.x = Math.cos(t/600) * 85;
+    sphere.position.y = 60 - Math.sin(t/900) * 25;
+    sphere.position.z = Math.sin(t/600) * 85;
+    sphere.rotation.x = t/500;
+    sphere.rotation.y = t/800;
 
     camera.position.x = Math.sin(t/1000) * 300;
     camera.position.y = 150;

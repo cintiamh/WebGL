@@ -1,6 +1,7 @@
 # set the scene size
 WIDTH = 600
 HEIGHT = 600
+REFRESH_RATE = 60 #ms
 
 SPLITX = 6
 SPLITY = 6
@@ -13,38 +14,59 @@ ASPECT = WIDTH / HEIGHT
 NEAR = 0.1
 FAR = 10000
 
-Tetris = {}
+running = false
+nextUpdate = 0
 
-init = ->
-  # get the DOM element to attach to
-  Tetris.canvas = $('#canvas')
+# instances
+board = null
+cube = null
 
-  # create a WebGL renderer, camera and scene
-  Tetris.renderer = new THREE.WebGLRenderer
-  Tetris.camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR)
-  Tetris.
-
+canvas = $('#container')
+renderer = new THREE.WebGLRenderer
+camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR)
+scene = new THREE.Scene
 
 prepareCanvas = ->
-  canvas.width = WIDTH
-  canvas.height = HEIGHT
-
-  camera = new THREE.PerspectiveCamera(VIEW_ANGLE, WIDTH / HEIGHT, 1, 10000)
+  scene.add(camera)
   camera.position.z = 300
-
-  scene = new THREE.Scene
-
-  cube = new THREE.Mesh(
-    new THREE.CubeGeometry(50, 50, 50)
-    new THREE.MeshBasicMaterial({color: 0xFF0000})
-  )
-  scene.add(cube)
-
-  renderer = new THREE.CanvasRenderer(canvas)
   renderer.setSize(WIDTH, HEIGHT)
-  renderer.setClearColor(0xEEEEEE, 1.0)
-  renderer.clear
+  canvas.append(renderer.domElement)
 
 start = ->
-  prepareCanvas()
+  running = true
 
+  animLoop = ->
+    # the browser will throttle the calls to a frame rate
+    requestAnimFrame ->
+      animate()
+      animLoop() if running
+
+  # start the loop
+  animLoop()
+
+animate = ->
+  try
+    if $.now() >= nextUpdate
+      update()
+      render()
+      nextUpdate = $.now() + REFRESH_RATE
+
+  catch e
+    running = false
+    console.log e
+    # Chrome's stack trace
+    console.log e.stack if e.stack?
+
+update = ->
+  cube.move()
+
+#render = ->
+
+
+class Background
+  constructor: (@radius, @segments, @rings) ->
+
+  draw: ->
+    sphereMaterial = new THREE.MeshLambertMaterial({color: 0xCC0000})
+    @ = new THREE.Mesh(new THREE.SphereGeometry(@radius, @segments, @rings), sphereMaterial)
+    scene.add(@)

@@ -1,24 +1,29 @@
+var WIDTH = 800,
+    HEIGHT = 600;
+
+var VIEW_ANGLE = 45,
+    ASPECT = WIDTH / HEIGHT,
+    NEAR = 1,
+    FAR = 10000;
+
+var container = $('#container');
+
 var renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setSize(document.body.clientWidth, document.body.clientHeight);
 document.body.appendChild(renderer.domElement);
 renderer.setClearColorHex(0xEEEEEE, 1.0);
 renderer.clear();
 renderer.shadowCameraFov = 50;
-renderer.shadowMapWidth = 1024;;
+renderer.shadowMapWidth = 1024;
 renderer.shadowMapHeight = 1024;
+//container.append(renderer.domElement);
 
-
-var fov = 45; // camera field-of-view in degrees
-var width = renderer.domElement.width;
-var height = renderer.domElement.height;
-var aspect = width / height; // view aspect ratio
-var near = 1; // near clip plane
-var far = 10000; // far clip plane
-var camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
+var camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR );
 camera.position.z = -400;
 camera.position.x = 200;
 camera.position.y = 350;
 var scene = new THREE.Scene();
+
 var cube = new THREE.Mesh(
     new THREE.CubeGeometry(50,50,50),
     new THREE.MeshLambertMaterial({color: 0xff0000})
@@ -48,7 +53,6 @@ scene.add(litCube);
 
 renderer.shadowMapEnabled = true;
 
-
 renderer.render(scene, camera);
 var paused = false;
 var last = new Date().getTime();
@@ -68,6 +72,7 @@ window.onmousemove = function(ev) {
         sy += dy;
     }
 }
+
 function animate(t) {
     if (!paused) {
         last = t;
@@ -82,4 +87,5 @@ function animate(t) {
     }
     window.requestAnimationFrame(animate, renderer.domElement);
 };
+
 animate(new Date().getTime());
