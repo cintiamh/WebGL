@@ -22,6 +22,7 @@ stepTime = 1000
 points = 0
 
 staticBlocks = []
+shapes = []
 
 canvas = $('#canvas')
 renderer = new THREE.WebGLRenderer
@@ -77,7 +78,9 @@ class Block
 class Shape
   constructor: (points) ->
     @blocks = points.map ([x, y, z]) -> new Block x, y, z
-    @position = {x: 0, y: 0, z: 0}
+    @x = 0
+    @y = 0
+    @z = 0
     @width = 0
     @height = 0
 
@@ -87,57 +90,101 @@ class Shape
 
   set_size: (@width, @height) ->
 
-  set_position: (x, y, z) ->
+  move_up: ->
     @blocks.forEach (b) ->
-      b.x += x
-      b.y += y
-      b.z += z
+      b.y += 1
       b.calculate_pos()
 
-  #move: ->
-  #  @blocks.forEach (b) ->
-  #    b.set_position(@position.x, @position.y, @position.z)
+  move_down: ->
+    @blocks.forEach (b) ->
+      b.y -= 1
+      b.calculate_pos()
 
-square_shape = new Shape [
-  [0, 0, 0]
-  [0, 1, 0]
-  [1, 0, 0]
-  [1, 1, 0]
-]
+  move_left: ->
+    @blocks.forEach (b) ->
+      b.x -= 1
+      b.calculate_pos()
 
-l_shape = new Shape [
-  [0, 0, 0]
-  [1, 0, 0]
-  [1, 1, 0]
-  [1, 2, 0]
-]
+  move_right: ->
+    @blocks.forEach (b) ->
+      b.x += 1
+      b.calculate_pos()
 
-bar_shape = new Shape [
-  [0, 0, 0]
-  [0, 1, 0]
-  [0, 2, 0]
-  [0, 3, 0]
-]
+  move_back: ->
+    @blocks.forEach (b) ->
+      b.z -= 1
+      b.calculate_pos()
 
-mountain_shape = new Shape [
-  [0, 1, 0]
-  [1, 0, 0]
-  [1, 1, 0]
-  [2, 1, 0]
-]
+  move_front: ->
+    @blocks.forEach (b) ->
+      b.z += 1
+      b.calculate_pos()
 
-s_shape = new Shape [
-  [0, 0, 0]
-  [1, 0, 0]
-  [1, 1, 0]
-  [2, 1, 0]
-]
+  set_position: (posx, posy, posz) ->
+    @blocks.forEach (b) ->
+      b.x += posx
+      b.y += posy
+      b.z += posz
+      b.calculate_pos()
 
-#mountain_shape.move()
+# Square
+shapes.push(
+  new Shape [
+    [0, 0, 0]
+    [0, 1, 0]
+    [1, 0, 0]
+    [1, 1, 0]
+  ]
+)
+# L
+shapes.push(
+  new Shape [
+    [0, 0, 0]
+    [1, 0, 0]
+    [1, 1, 0]
+    [1, 2, 0]
+  ]
+)
+# Bar
+shapes.push(
+  new Shape [
+    [0, 0, 0]
+    [0, 1, 0]
+    [0, 2, 0]
+    [0, 3, 0]
+  ]
+)
+# Mountain
+shapes.push(
+  new Shape [
+    [0, 1, 0]
+    [1, 0, 0]
+    [1, 1, 0]
+    [2, 1, 0]
+  ]
+)
+# S
+shapes.push(
+  new Shape [
+    [0, 0, 0]
+    [1, 0, 0]
+    [1, 1, 0]
+    [2, 1, 0]
+  ]
+)
+console.log(shapes)
+
 #mountain_shape.draw()
+#mountain_shape.set_position(2, 2, 0)
+#mountain_shape.calculate_pos()
+#console.log(mountain_shape.blocks)
+#mountain_shape.set_position(2, 2, 0)
+#mountain_shape.set_position(2, 2, 14)
 #mountain_shape.set_size 3, 2
-cube = new Block 0, 0, 0
-cube.draw()
+#cube = new Block 0, 0, 0
+#cube.draw()
+shapes[1].draw()
+shapes[1].set_position(2, 2, 14)
 
 addPoints = (n) ->
   points += n
@@ -148,20 +195,12 @@ start_time = $.now()
 
 animate = (t) ->
 
-  #camera.position.x = Math.sin(t/1000) * 300;
-  #camera.position.y = 150;
-  #camera.position.z = Math.cos(t/1000) * 300;
-
-  #camera.lookAt(scene.position);
-
   if $.now() - start_time >= stepTime
     start_time = $.now()
-    cube.z += 1
-    console.log(cube.z)
-    cube.calculate_pos()
-
-    #cube.draw()
-
+    #cube.z += 1
+    #cube.calculate_pos()
+    #mountain_shape.move_front()
+    shapes[1].move_back()
 
   renderer.clear()
   renderer.render(scene, camera)
