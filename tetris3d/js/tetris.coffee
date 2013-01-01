@@ -60,9 +60,12 @@ class Block
   draw: ->
     if @active
       @active = true
-      @cube = new THREE.Mesh(
+      @cube = new THREE.SceneUtils.createMultiMaterialObject(
         new THREE.CubeGeometry(BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE)
-        new THREE.MeshBasicMaterial({color: @color})
+        [
+          new THREE.MeshBasicMaterial({color: 0xFFAA00, wireframe: true, transparent: true })
+          new THREE.MeshBasicMaterial({color: @color})
+        ]
       )
       @calculate_pos()
       scene.add(@cube)
@@ -78,54 +81,60 @@ class Block
 class Shape
   constructor: (points) ->
     @blocks = points.map ([x, y, z]) -> new Block x, y, z
-    @x = 0
-    @y = 0
-    @z = 0
-    @width = 0
-    @height = 0
+    @midx = 0
+    @midy = 0
+    @position =
+      x: 0
+      y: 0
+      z: 0
 
   draw: ->
     @blocks.forEach (b) ->
       b.draw()
 
-  set_size: (@width, @height) ->
-
-  move_up: ->
+  move: (diffx, diffy, diffz) ->
     @blocks.forEach (b) ->
-      b.y += 1
-      b.calculate_pos()
-
-  move_down: ->
-    @blocks.forEach (b) ->
-      b.y -= 1
-      b.calculate_pos()
-
-  move_left: ->
-    @blocks.forEach (b) ->
-      b.x -= 1
-      b.calculate_pos()
-
-  move_right: ->
-    @blocks.forEach (b) ->
-      b.x += 1
-      b.calculate_pos()
-
-  move_back: ->
-    @blocks.forEach (b) ->
-      b.z -= 1
-      b.calculate_pos()
-
-  move_front: ->
-    @blocks.forEach (b) ->
-      b.z += 1
+      b.x += diffx
+      b.y += diffy
+      b.z += diffz
       b.calculate_pos()
 
   set_position: (posx, posy, posz) ->
+    @position.x = posx
+    @position.y = posy
+    @position.z = posz
     @blocks.forEach (b) ->
       b.x += posx
       b.y += posy
       b.z += posz
       b.calculate_pos()
+
+  rotate: (dirx, diry, dirz) ->
+
+    position = @position
+    midx = @midx
+    midy = @midy
+
+    unless dirx == 0
+      @blocks.forEach (b) ->
+        temp = b.y
+        b.y = (b.z - position.z) * dirx + position.y + midy
+        b.z = (-(temp - position.y)) * dirx + position.z
+        b.calculate_pos()
+
+    unless diry == 0
+      @blocks.forEach (b) ->
+        temp = b.x
+        b.x = (-(b.z - position.z)) * diry + position.x + midx
+        b.z = (temp - position.x) * diry + position.z
+        b.calculate_pos()
+
+    unless dirz == 0
+      @blocks.forEach (b) ->
+        temp = b.x
+        b.x = (-(b.y - position.y)) * dirz + position.x
+        b.y = (temp - position.x) * dirz + position.y + midy
+        b.calculate_pos()
 
 # Square
 shapes.push(
@@ -136,6 +145,8 @@ shapes.push(
     [1, 1, 0]
   ]
 )
+shapes[0].midx = 1
+shapes[0].midy = 1
 # L
 shapes.push(
   new Shape [
@@ -145,6 +156,8 @@ shapes.push(
     [1, 2, 0]
   ]
 )
+shapes[1].midx = 1
+shapes[1].midy = 1
 # Bar
 shapes.push(
   new Shape [
@@ -154,6 +167,8 @@ shapes.push(
     [0, 3, 0]
   ]
 )
+shapes[2].midx = 0
+shapes[2].midy = 2
 # Mountain
 shapes.push(
   new Shape [
@@ -163,6 +178,8 @@ shapes.push(
     [2, 1, 0]
   ]
 )
+shapes[3].midx = 2
+shapes[3].midy = 1
 # S
 shapes.push(
   new Shape [
@@ -172,19 +189,11 @@ shapes.push(
     [2, 1, 0]
   ]
 )
-console.log(shapes)
+shapes[4].midx = 1
+shapes[4].midy = 1
 
-#mountain_shape.draw()
-#mountain_shape.set_position(2, 2, 0)
-#mountain_shape.calculate_pos()
-#console.log(mountain_shape.blocks)
-#mountain_shape.set_position(2, 2, 0)
-#mountain_shape.set_position(2, 2, 14)
-#mountain_shape.set_size 3, 2
-#cube = new Block 0, 0, 0
-#cube.draw()
-shapes[1].draw()
-shapes[1].set_position(2, 2, 14)
+shapes[2].draw()
+shapes[2].set_position(2, 2, 14)
 
 addPoints = (n) ->
   points += n
@@ -197,10 +206,10 @@ animate = (t) ->
 
   if $.now() - start_time >= stepTime
     start_time = $.now()
-    #cube.z += 1
-    #cube.calculate_pos()
-    #mountain_shape.move_front()
-    shapes[1].move_back()
+
+    #shapes[1].move(0, 0, -1)
+    #shapes[4].rotate("left")
+    shapes[2].rotate(0, 0, -1)
 
   renderer.clear()
   renderer.render(scene, camera)

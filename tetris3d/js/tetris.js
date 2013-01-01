@@ -75,9 +75,15 @@
     Block.prototype.draw = function() {
       if (this.active) {
         this.active = true;
-        this.cube = new THREE.Mesh(new THREE.CubeGeometry(BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), new THREE.MeshBasicMaterial({
-          color: this.color
-        }));
+        this.cube = new THREE.SceneUtils.createMultiMaterialObject(new THREE.CubeGeometry(BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), [
+          new THREE.MeshBasicMaterial({
+            color: 0xFFAA00,
+            wireframe: true,
+            transparent: true
+          }), new THREE.MeshBasicMaterial({
+            color: this.color
+          })
+        ]);
         this.calculate_pos();
         return scene.add(this.cube);
       }
@@ -105,11 +111,13 @@
         x = _arg[0], y = _arg[1], z = _arg[2];
         return new Block(x, y, z);
       });
-      this.x = 0;
-      this.y = 0;
-      this.z = 0;
-      this.width = 0;
-      this.height = 0;
+      this.midx = 0;
+      this.midy = 0;
+      this.position = {
+        x: 0,
+        y: 0,
+        z: 0
+      };
     }
 
     Shape.prototype.draw = function() {
@@ -118,54 +126,19 @@
       });
     };
 
-    Shape.prototype.set_size = function(width, height) {
-      this.width = width;
-      this.height = height;
-    };
-
-    Shape.prototype.move_up = function() {
+    Shape.prototype.move = function(diffx, diffy, diffz) {
       return this.blocks.forEach(function(b) {
-        b.y += 1;
-        return b.calculate_pos();
-      });
-    };
-
-    Shape.prototype.move_down = function() {
-      return this.blocks.forEach(function(b) {
-        b.y -= 1;
-        return b.calculate_pos();
-      });
-    };
-
-    Shape.prototype.move_left = function() {
-      return this.blocks.forEach(function(b) {
-        b.x -= 1;
-        return b.calculate_pos();
-      });
-    };
-
-    Shape.prototype.move_right = function() {
-      return this.blocks.forEach(function(b) {
-        b.x += 1;
-        return b.calculate_pos();
-      });
-    };
-
-    Shape.prototype.move_back = function() {
-      return this.blocks.forEach(function(b) {
-        b.z -= 1;
-        return b.calculate_pos();
-      });
-    };
-
-    Shape.prototype.move_front = function() {
-      return this.blocks.forEach(function(b) {
-        b.z += 1;
+        b.x += diffx;
+        b.y += diffy;
+        b.z += diffz;
         return b.calculate_pos();
       });
     };
 
     Shape.prototype.set_position = function(posx, posy, posz) {
+      this.position.x = posx;
+      this.position.y = posy;
+      this.position.z = posz;
       return this.blocks.forEach(function(b) {
         b.x += posx;
         b.y += posy;
@@ -174,25 +147,77 @@
       });
     };
 
+    Shape.prototype.rotate = function(dirx, diry, dirz) {
+      var midx, midy, position;
+      position = this.position;
+      midx = this.midx;
+      midy = this.midy;
+      if (dirx !== 0) {
+        this.blocks.forEach(function(b) {
+          var temp;
+          temp = b.y;
+          b.y = (b.z - position.z) * dirx + position.y + midy;
+          b.z = (-(temp - position.y)) * dirx + position.z;
+          return b.calculate_pos();
+        });
+      }
+      if (diry !== 0) {
+        this.blocks.forEach(function(b) {
+          var temp;
+          temp = b.x;
+          b.x = (-(b.z - position.z)) * diry + position.x + midx;
+          b.z = (temp - position.x) * diry + position.z;
+          return b.calculate_pos();
+        });
+      }
+      if (dirz !== 0) {
+        return this.blocks.forEach(function(b) {
+          var temp;
+          temp = b.x;
+          b.x = (-(b.y - position.y)) * dirz + position.x;
+          b.y = (temp - position.x) * dirz + position.y + midy;
+          return b.calculate_pos();
+        });
+      }
+    };
+
     return Shape;
 
   })();
 
   shapes.push(new Shape([[0, 0, 0], [0, 1, 0], [1, 0, 0], [1, 1, 0]]));
 
+  shapes[0].midx = 1;
+
+  shapes[0].midy = 1;
+
   shapes.push(new Shape([[0, 0, 0], [1, 0, 0], [1, 1, 0], [1, 2, 0]]));
+
+  shapes[1].midx = 1;
+
+  shapes[1].midy = 1;
 
   shapes.push(new Shape([[0, 0, 0], [0, 1, 0], [0, 2, 0], [0, 3, 0]]));
 
+  shapes[2].midx = 0;
+
+  shapes[2].midy = 2;
+
   shapes.push(new Shape([[0, 1, 0], [1, 0, 0], [1, 1, 0], [2, 1, 0]]));
+
+  shapes[3].midx = 2;
+
+  shapes[3].midy = 1;
 
   shapes.push(new Shape([[0, 0, 0], [1, 0, 0], [1, 1, 0], [2, 1, 0]]));
 
-  console.log(shapes);
+  shapes[4].midx = 1;
 
-  shapes[1].draw();
+  shapes[4].midy = 1;
 
-  shapes[1].set_position(2, 2, 14);
+  shapes[2].draw();
+
+  shapes[2].set_position(2, 2, 14);
 
   addPoints = function(n) {
     return points += n;
@@ -205,7 +230,7 @@
   animate = function(t) {
     if ($.now() - start_time >= stepTime) {
       start_time = $.now();
-      shapes[1].move_back();
+      shapes[2].rotate(0, 0, -1);
     }
     renderer.clear();
     renderer.render(scene, camera);
