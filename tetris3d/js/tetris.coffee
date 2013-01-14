@@ -22,7 +22,10 @@ stepTime = 1000
 points = 0
 
 staticBlocks = []
+block_colors = [0x0000FF, 0x3333FF, 0x6565FF, 0x9999FF, 0xB2B2FF, 0xCBCBFF, 0xE5E5FF,
+  0xE5FFE5, 0xCBFFCB, 0xB2FFB2, 0x99FF99, 0x65FF65, 0x33FF33, 0x00FF00]
 shapes = []
+currShape = null
 
 canvas = $('#canvas')
 renderer = new THREE.WebGLRenderer
@@ -51,24 +54,23 @@ scene.add(boundingBox)
 class Block
   constructor: (@x, @y, @z) ->
     @color = 0xFF0000
-    @active = true
+    @active = false
     @cube = null
 
   setColor: (color) ->
     @color = color
 
   draw: ->
-    if @active
-      @active = true
-      @cube = new THREE.SceneUtils.createMultiMaterialObject(
-        new THREE.CubeGeometry(BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE)
-        [
-          new THREE.MeshBasicMaterial({color: 0xFFAA00, wireframe: true, transparent: true })
-          new THREE.MeshBasicMaterial({color: @color})
-        ]
-      )
-      @calculate_pos()
-      scene.add(@cube)
+    @active = true
+    @cube = new THREE.SceneUtils.createMultiMaterialObject(
+      new THREE.CubeGeometry(BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE)
+      [
+        new THREE.MeshBasicMaterial({color: 0xFFAA00, wireframe: true, transparent: true })
+        new THREE.MeshBasicMaterial({color: @color})
+      ]
+    )
+    @calculate_pos()
+    scene.add(@cube)
 
   print: -> console.log(@cube.position.x + ", " + @cube.position.y + ", " + @cube.position.z)
 
@@ -77,12 +79,14 @@ class Block
     @cube.position.y = -(TABLE_HEIGHT / 2 + (@y - (TABLE_HEIGHT - 0.5))) * BLOCK_SIZE
     @cube.position.z = (@z - TABLE_DEPTH / 2 + 0.5) * BLOCK_SIZE
 
+  erase: ->
+    @active = false
+    scene.remove(@cube)
+
 # Piece Shape
 class Shape
   constructor: (points) ->
     @blocks = points.map ([x, y, z]) -> new Block x, y, z
-    @midx = 0
-    @midy = 0
     @position =
       x: 0
       y: 0
@@ -91,6 +95,10 @@ class Shape
   draw: ->
     @blocks.forEach (b) ->
       b.draw()
+
+  erase: ->
+    @blocks.forEach (b) ->
+      b.erase()
 
   move: (diffx, diffy, diffz) ->
     @blocks.forEach (b) ->
@@ -110,106 +118,116 @@ class Shape
       b.calculate_pos()
 
   rotate: (dirx, diry, dirz) ->
-
     position = @position
-    midx = @midx
-    midy = @midy
-
     unless dirx == 0
       @blocks.forEach (b) ->
         temp = b.y
-        b.y = (b.z - position.z) * dirx + position.y + midy
-        b.z = (-(temp - position.y)) * dirx + position.z
+        b.y = (-(b.z - position.z)) * dirx + position.y
+        b.z = (temp - position.y) * dirx + position.z
         b.calculate_pos()
 
     unless diry == 0
       @blocks.forEach (b) ->
         temp = b.x
-        b.x = (-(b.z - position.z)) * diry + position.x + midx
-        b.z = (temp - position.x) * diry + position.z
+        b.x = (b.z - position.z) * diry + position.x
+        b.z = (-(temp - position.x)) * diry + position.z
         b.calculate_pos()
 
     unless dirz == 0
       @blocks.forEach (b) ->
         temp = b.x
         b.x = (-(b.y - position.y)) * dirz + position.x
-        b.y = (temp - position.x) * dirz + position.y + midy
+        b.y = (temp - position.x) * dirz + position.y
         b.calculate_pos()
 
-# Square
-shapes.push(
-  new Shape [
-    [0, 0, 0]
-    [0, 1, 0]
-    [1, 0, 0]
-    [1, 1, 0]
-  ]
-)
-shapes[0].midx = 1
-shapes[0].midy = 1
-# L
-shapes.push(
-  new Shape [
-    [0, 0, 0]
-    [1, 0, 0]
-    [1, 1, 0]
-    [1, 2, 0]
-  ]
-)
-shapes[1].midx = 1
-shapes[1].midy = 1
-# Bar
-shapes.push(
-  new Shape [
-    [0, 0, 0]
-    [0, 1, 0]
-    [0, 2, 0]
-    [0, 3, 0]
-  ]
-)
-shapes[2].midx = 0
-shapes[2].midy = 2
-# Mountain
-shapes.push(
-  new Shape [
-    [0, 1, 0]
-    [1, 0, 0]
-    [1, 1, 0]
-    [2, 1, 0]
-  ]
-)
-shapes[3].midx = 2
-shapes[3].midy = 1
-# S
-shapes.push(
-  new Shape [
-    [0, 0, 0]
-    [1, 0, 0]
-    [1, 1, 0]
-    [2, 1, 0]
-  ]
-)
-shapes[4].midx = 1
-shapes[4].midy = 1
+  check_col: ->
+    reboot = false
+    @blocks.forEach (b) ->
+      # check if reached a static block
 
-shapes[2].draw()
-shapes[2].set_position(2, 2, 14)
+      # check if reached the minimum level
+      if b.z <= 0
+        reboot = true
+    if reboot
+      instantiate_shape()
+      @erase()
+    @move(0, 0, -1)
+
+instantiate_shape = ->
+  index = Math.floor(Math.random() * 5)
+  currShape = shapes[index]
+  currShape.draw()
+  currShape.set_position(Math.floor(TABLE_WIDTH/2), Math.floor(TABLE_HEIGHT/2), MAX_DEPTH)
+
+check_shape_pos = ->
+  currShape.check_col()
 
 addPoints = (n) ->
   points += n
 
+add_static_block = (x, y, z) ->
+  block = new Block x, y, z
+  block.setColor(block_colors[z])
+  block.draw()
+  staticBlocks.push(block)
+
 renderer.render(scene, camera)
 
+# Tetris pieces shapes
+# Square
+shapes.push(
+  new Shape [
+    [-1, -1, 0]
+    [-1, 0, 0]
+    [0, -1, 0]
+    [0, 0, 0]
+  ]
+)
+# L
+shapes.push(
+  new Shape [
+    [-1, -1, 0]
+    [0, -1, 0]
+    [0, 0, 0]
+    [0, 1, 0]
+  ]
+)
+# Bar
+shapes.push(
+  new Shape [
+    [0, -2, 0]
+    [0, -1, 0]
+    [0, 0, 0]
+    [0, 1, 0]
+  ]
+)
+# Mountain
+shapes.push(
+  new Shape [
+    [-1, 0, 0]
+    [0, -1, 0]
+    [0, 0, 0]
+    [1, 0, 0]
+  ]
+)
+# S
+shapes.push(
+  new Shape [
+    [-2, -1, 0]
+    [-1, -1, 0]
+    [-1, 0, 0]
+    [0, 0, 0]
+  ]
+)
+
 start_time = $.now()
+instantiate_shape()
 
 animate = (t) ->
 
   if $.now() - start_time >= stepTime
     start_time = $.now()
-
-    #shapes[1].move(0, 0, -1)
-    #shapes[4].rotate("left")
-    shapes[2].rotate(0, 0, -1)
+    check_shape_pos()
 
   renderer.clear()
   renderer.render(scene, camera)
