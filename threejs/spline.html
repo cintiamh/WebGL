@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div id="container"></div>
+<script type="text/javascript" src="js/three.min.js"></script>
+<script type="text/javascript">
+    var WIDTH = 800;
+    var HEIGHT = 600;
+
+    var VIEW_ANGLE = 45;
+    var ASPECT = WIDTH / HEIGHT;
+    var NEAR = 1;
+    var FAR = 10000;
+
+    var container = document.getElementById("container");
+    var renderer = new THREE.WebGLRenderer();
+    var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+    var scene = new THREE.Scene();
+
+    scene.add(camera);
+    camera.position.z = 300;
+    renderer.setSize(WIDTH, HEIGHT);
+    container.append(renderer.domElement);
+
+    var line = new THREE.SplineCurve([
+            new THREE.Vector2(30, 12),
+            new THREE.Vector2(40, 20),
+            new THREE.Vector2(60, 40),
+            new THREE.Vector2(10, 60),
+            new THREE.Vector2(25, 80)
+    ]);
+    scene.add(line);
+    renderer.render(scene, camera);
+</script>
+</body>
+</html>

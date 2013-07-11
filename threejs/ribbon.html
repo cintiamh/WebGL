@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div id="container"></div>
+<script type="text/javascript" src="js/three.min.js"></script>
+<script type="text/javascript">
+    var WIDTH = 800;
+    var HEIGHT = 600;
+
+    var VIEW_ANGLE = 45;
+    var ASPECT = WIDTH / HEIGHT;
+    var NEAR = 1;
+    var FAR = 10000;
+
+    var container = document.getElementById("container");
+    var renderer = new THREE.WebGLRenderer();
+    var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+    var scene = new THREE.Scene();
+
+    scene.add(camera);
+    camera.position.z = 300;
+    renderer.setSize(WIDTH, HEIGHT);
+    container.append(renderer.domElement);
+
+    var geometry = new THREE.Geometry();
+
+    n = 1000;
+    for (var i = -n; i < n; i++) {
+        var x, y, z;
+        var i2 = i + n;
+        x = i * 1.175;
+        y = (i2 % 2) * 5;
+        if (i2 % 2) {
+            z = 10 * Math.sin(i2 * 0.3) * Math.cos(i2 * 0.1);
+        }
+        geometry.vertices.push(new THREE.Vector3(x,y,z));
+        var h = i2 % 2 ? 1 : 0.15;
+        if (i2 % 4 <= 2) h -= 0.15;
+        var color = new THREE.Color(0xFFFFFF);
+        color.setHSL(0.1, 0, h);
+        geometry.colors.push(color);
+    }
+
+    var material = new THREE.MeshBasicMaterial({color: 0xFFFFFF, vertexColors: true, side: THREE.DoubleSide});
+    var ribbon = new THREE.Ribbon(geometry, material);
+    ribbon.rotation.x = 0;
+    ribbon.rotation.y = Math.PI / 2;
+    ribbon.rotation.z = Math.PI;
+
+    scene.add(ribbon);
+    renderer.render(scene, camera);
+</script>
+</body>
+</html>
