@@ -1,4 +1,5 @@
 var gl;
+
 function initGL(canvas) {
     try {
         // get context for webgl instead of 2D
@@ -11,7 +12,6 @@ function initGL(canvas) {
         alert("Could not initialise WebGL, sorry :-(");
     }
 }
-
 
 function getShader(gl, id) {
     var shaderScript = document.getElementById(id);
