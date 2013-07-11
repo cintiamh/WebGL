@@ -1,7 +1,5 @@
 # idea files
 .idea/*
-<<<<<<< HEAD
 *.iml
-=======
-*.iml
->>>>>>> d2471c9bb44eb016565a30afb4cd6318a282d9d7
+.project
+.settings
