@@ -28,7 +28,14 @@ function init() {
     var p1 = new THREE.Vector3(-150, 0, 0);
     var p2 = new THREE.Vector3(200, 3, 10);
 
-    drawCurve(p1, p2);
+    console.log(isVector3());
+
+    drawCurve(p1, p2, 12);
+
+    p3 = new THREE.Vector3(0, -10, 140);
+    p4 = new THREE.Vector3(0, -10, -140);
+
+    drawCurve(p3, p4);
 
     /*var geometry = new THREE.Geometry();
     var n_sub = 9;
@@ -105,7 +112,7 @@ function drawCurve(p1, p2, subdivisions) {
 
     var midPoint = findMidPoint(p1, p2);
 
-    points = [p1, midPoint, p2];
+    var points = [p1, midPoint, p2];
 
     var spline = new THREE.QuadraticBezierCurve3(p1, midPoint, p2);
 
@@ -117,21 +124,34 @@ function drawCurve(p1, p2, subdivisions) {
         colors[i].setHSL(Math.max(0, -position.x / 200) + 0.5, 1.0, 0.3);
     }
 
+    geometry.computeLineDistances();
     geometry.colors = colors;
-    //geometry.computeLineDistances();
 
     material = new THREE.LineDashedMaterial({
         color: 0xFFFFFF,
-        dashSize: 2,
-        gapSize: 0.3,
+        dashSize: 5,
+        gapSize: 2,
         vertexColors: THREE.VertexColors,
         depthTest: false
     });
 
     console.log(material.gapSize);
 
-    var line = new THREE.Line( geometry, material, THREE.LinePieces );
+    var line = new THREE.Line( geometry, material, THREE.LineStrip );
     scene.add(line);
+}
+
+function isVector3(vec) {
+    if (vec) {
+        if (isNumber(vec.x) && isNumber(vec.y) && isNumber(vec.z)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function isNumber(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
 function animate(t) {
