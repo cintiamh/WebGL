@@ -171,20 +171,3 @@ window.onload = function() {
     init();
     animate(new Date().getTime());
 }
-/*
-var edgeBuilder = function(renderer, map) {
-    var filtered = [];
-    if(selectedMedia){
-        filtered.push(selectedMedia.parentEdge);
-        filtered = filtered.concat(selectedMedia.childrenEdges, selectedMedia.otherEdges);
-    }
-    var lines = renderer.buildLinesFromEdgeList(
-        filtered.map(function(edge) {
-            //HACK: D3 and voronoi use different edge formats, so use some glue here.
-            return [edge.source ? {point: edge.source} : null, edge.dest ? {point: edge.dest} : null];
-        }, []), line_material_edge);
-    lines.renderDepth = depthIndex;
-    depthIndex -= 300;
-    return $.extend(lines, MAPGEN.ThreeViewElement());
-};
-*/
